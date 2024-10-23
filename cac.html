@@ -1,15 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Change Paragraph Text</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <p id="myParagraph">This is the original paragraph text.</p>
-    <button onclick="changeText()">Change Text</button>
-    <alert>this is an alert created by atharv</alert>
-    <h1>im trying to see if the remote/main works</h1>
-    <!-- Link to external JavaScript file -->
-    <alert> atharv is gay </alert>
-    <script src="cac.js"></script>
+    <div class="container">
+        <h1 class="mt-5">Task Tracker</h1>
+        <form id="taskForm" class="mt-3">
+            <div class="form-group">
+                <input type="text" id="taskTitle" class="form-control" placeholder="Enter task title" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+
+        <h2 class="mt-5">Tasks</h2>
+        <ul id="taskList" class="list-group mt-3"></ul>
+    </div>
+
+    <script>
+        const form = document.getElementById('taskForm');
+        const taskList = document.getElementById('taskList');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('taskTitle').value;
+
+            const response = await fetch('/addTask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title }),
+            });
+
+            const tasks = await response.json();
+            updateTaskList(tasks);
+            form.reset();
+        });
+
+        async function fetchTasks() {
+            const response = await fetch('/tasks');
+            const tasks = await response.json();
+            updateTaskList(tasks);
+        }
+
+        function updateTaskList(tasks) {
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = task.title;
+                taskList.appendChild(li);
+            });
+        }
+
+        fetchTasks();
+    </script>
 </body>
-</html
+</html>
