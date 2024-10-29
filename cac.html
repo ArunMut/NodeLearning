@@ -28,6 +28,9 @@
 const form = document.getElementById('taskForm');
 const taskList = document.getElementById('taskList');
 
+
+
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = document.getElementById('taskTitle').value;
@@ -51,7 +54,11 @@ async function fetchTasks() {
     updateTaskList(tasks);
 }
 
+let striked = []; // Create an empty array that stores which bullets have been strikethroughed
+
 function updateTaskList(tasks) {
+    striked.push(false);
+
     taskList.innerHTML = ''; // Clear existing tasks
     for (let i = 0; i < tasks.length; i++) {
         const task = tasks[i];
@@ -70,7 +77,13 @@ function updateTaskList(tasks) {
         const label = document.createElement('label');
         label.className = 'form-check-label';
         label.htmlFor = 'taskID' + i;
-        label.innerHTML = task.title;
+        if(striked[i] == true){
+            label.innerHTML = `<s>${task.title}</s>`;
+            checkbox.checked = true; 
+        } else{
+            label.innerHTML = task.title;
+            checkbox.checked = false; 
+        }
 
         // Append checkbox and label to the div
         li.appendChild(checkbox);
@@ -82,9 +95,11 @@ function updateTaskList(tasks) {
         // Add event listener to the checkbox
         checkbox.addEventListener('change', function() {
             if (this.checked) {
+                striked[i] = true;
                 // Apply strikethrough when checked
                 label.innerHTML = `<s>${task.title}</s>`;
             } else {
+                striked[i] = false;
                 // Remove strikethrough when unchecked
                 label.innerHTML = task.title;
             }
