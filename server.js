@@ -18,15 +18,17 @@ let tasks = [];
 
 // Home route
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "cac.html"));
+    res.sendFile(path.join(__dirname, "public", "cac.html"));
+    app.use("/", express.static(path.join(__dirname, "/public/")));
 });
+
 
 // Add task route
 app.post("/addTask", (req, res) => {
     const newTask = {
         title: req.body.title,
         completed: false,
-    };
+    };  
     tasks.push(newTask);
     res.json(tasks);
 });
