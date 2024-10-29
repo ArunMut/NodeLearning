@@ -1,0 +1,12 @@
+body
+{
+    background-color: #2c2b30;
+    overflow: auto;
+    position: relative;
+}
+
+p
+{
+    font-size: 17px;
+    margin-bottom: 12px;
+}
