@@ -17,10 +17,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let tasks = [];
 
 // Home route
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "taskManager", "cac.html"));
-    app.use("/", express.static(path.join(__dirname, "/public/taskManager/")));
-});
+
+// app.get("/", (req, res) => {
+//     res.sendFile(path.join(__dirname, "public", "taskManager", "cac.html"));
+//     app.use("/", express.static(path.join(__dirname, "/public/taskManager/")));
+// });
+
+app.get("/public/:name", (req, res) => {
+	res.sendFile(path.join(__dirname, "/public/", req.params.name));
+    app.use(path.join("/public/", req.params.name), express.static(path.join(__dirname, "/public/", req.params.name)));
+})
 
 
 // Add task route
