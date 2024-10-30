@@ -19,14 +19,28 @@ let tasks = [];
 // Home route
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "taskManager", "cac.html"));
-    app.use("/", express.static(path.join(__dirname, "/public/taskManager/")));
+    res.sendFile(path.join(__dirname, "public", "home", "home.html"));
+    app.use("/home", express.static(path.join(__dirname, "/public/home/")));
+
 });
 
-app.get("/home", (req, res) => {
-	res.sendFile(path.join(__dirname, "public", "home", "home.html"));
-    app.use("/home", express.static(path.join(__dirname, "/public/home/")));
+app.get("/task", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "taskManager", "cac.html"));
+    app.use("/", express.static(path.join(__dirname, "/public/taskManager/")));
+
 })
+
+// app.get("/task", (req, res) => {
+//     res.sendFile(path.join(__dirname, "public", "taskManager", "cac.html"));
+//     app.use("/", express.static(path.join(__dirname, "/public/taskManager/")));
+
+// })
+
+
+// app.get("/:name", (req, res) => {
+// 	res.sendFile(path.join(__dirname, "/public/content/", req.params.name));
+// })
+
 
 
 // Add task route
